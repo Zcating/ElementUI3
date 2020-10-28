@@ -1,8 +1,8 @@
 import { computed, defineComponent, inject, ref } from "vue";
-import { langToken } from "./cdk/global";
-import zhCN from "./cdk/lang/zh-CN";
+import { langToken } from "../cdk/global";
+import zhCN from "../cdk/lang/zh-CN";
 import { chunk } from "lodash-es";
-import { month } from "./cdk";
+import { month } from "../cdk";
 export default defineComponent({
   name: "ele-calendar",
   props: {

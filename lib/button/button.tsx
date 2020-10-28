@@ -1,6 +1,19 @@
 import { ElSize } from '../types';
-import { computed, defineComponent, inject, renderSlot } from "vue";
+import { ButtonHTMLAttributes, computed, defineComponent, inject, renderSlot } from "vue";
 import { ElButtonNativeType, ElButtonType } from './types';
+
+interface ButtonProps {
+  type?: ElButtonType,
+  size?: ElSize,
+  icon?: string,
+  nativeType?: ElButtonNativeType,
+  loading?: boolean,
+  disabled?: boolean,
+  plain?: boolean,
+  autofocus?: boolean,
+  round?: boolean,
+  circle?: boolean,
+}
 
 export const ButtonGroup = defineComponent({
   name: "ele-button-group",
@@ -36,10 +49,6 @@ export const Button = defineComponent({
     autofocus: Boolean,
     round: Boolean,
     circle: Boolean,
-    onClick: {
-      type: Function,
-      default: (e: Event) => {},
-    },
   },
   emits: ["click"],
   setup(props, ctx) {
@@ -51,10 +60,6 @@ export const Button = defineComponent({
 
     return () => (
       <button
-        onClick={(e) => {
-          // ctx.emit("click", e);
-          props.onClick(e);
-        }}
         disabled={buttonDisabled.value || props.loading}
         autofocus={props.autofocus}
         type={props.nativeType}
@@ -70,6 +75,7 @@ export const Button = defineComponent({
             "is-circle": props.circle,
           },
         ]}
+        {...ctx.attrs}
       >
         {props.loading ? <i class='el-icon-loading' v-if='loading'></i> : null}
         {props.icon && !props.loading ? <i class={props.icon}></i> : null}
@@ -77,4 +83,7 @@ export const Button = defineComponent({
       </button>
     );
   },
-});
+}) as any as {
+  new(): { $props: ButtonProps & ButtonHTMLAttributes }
+};
+

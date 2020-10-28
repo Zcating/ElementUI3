@@ -8,8 +8,8 @@ import {
   Transition,
   watch,
 } from "vue";
-import { platformToken, getFuncToken } from "../lib";
-import { runWhileScroll } from "./cdk/tools";
+import { platformToken, getFuncToken } from "..";
+import { runWhileScroll } from "../cdk/tools";
 
 /**
  * visible while scroll to certain area

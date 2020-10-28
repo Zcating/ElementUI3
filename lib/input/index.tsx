@@ -1,6 +1,6 @@
 import { vmodelRef } from '../cdk/hook';
-import { Enum, Method, renderCondition } from '../cdk/utils';
-import { computed, CSSProperties, defineComponent, getCurrentInstance, nextTick, onMounted, onUpdated, Ref, ref, renderSlot, SetupContext, toRef, toRefs, VNode, watch } from "vue";
+import { defineAttributesComponent, Enum, Method, renderCondition } from '../cdk/utils';
+import { computed, CSSProperties, defineComponent, getCurrentInstance, nextTick, onMounted, onUpdated, Ref, ref, renderSlot, SetupContext, toRef, watch, resolveDynamicComponent, InputHTMLAttributes, TextareaHTMLAttributes } from "vue";
 import { calcTextareaHeight } from './utils';
 
 type InputElement = HTMLInputElement | HTMLTextAreaElement;
@@ -101,7 +101,7 @@ function useInput(
     }
 
     if (onInputHook) {
-      ctx.emit('input', event);
+      onInputHook(event);
     } else {
       inputValue.value = (event.target as InputElement).value;
     }
@@ -174,6 +174,11 @@ function useClear(
   }
 }
 
+/**
+ * @function usePassword
+ * @description
+ * Caculates when the password needs to show.
+ */
 function usePassword(
   showPassword: Ref<boolean | undefined>,
   disabled: Ref<boolean | undefined>,
@@ -299,7 +304,7 @@ function positionIcon(
   });
 }
 
-export const Input = defineComponent({
+export const InputImpl = defineComponent({
   name: 'el-input',
   // prevent the $attrs applys to <div>
   inheritAttrs: false,
@@ -353,6 +358,7 @@ export const Input = defineComponent({
     onInput: Method<(e: Event) => void>()
   },
 
+
   setup(props, ctx) {
     const typeRef = toRef(props, 'type');
     const diabledRef = toRef(props, 'disabled');
@@ -403,9 +409,6 @@ export const Input = defineComponent({
     );
 
     positionIcon(ctx, typeRef);
-
-
-    console.log(ctx.attrs);
 
     return {
       // form
@@ -609,3 +612,8 @@ export const Input = defineComponent({
     );
   }
 });
+
+export const Input = defineAttributesComponent<
+  InputHTMLAttributes & TextareaHTMLAttributes, 
+  typeof InputImpl
+>(InputImpl);
