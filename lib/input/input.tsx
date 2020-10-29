@@ -1,5 +1,5 @@
 import { vmodelRef } from '../cdk/hook';
-import { defineAttributesComponent, Enum, Method, renderCondition } from '../cdk/utils';
+import { Enum, Method, renderCondition, toAttrComponent } from '../cdk/utils';
 import { computed, CSSProperties, defineComponent, getCurrentInstance, nextTick, onMounted, onUpdated, Ref, ref, renderSlot, SetupContext, toRef, watch, resolveDynamicComponent, InputHTMLAttributes, TextareaHTMLAttributes } from "vue";
 import { calcTextareaHeight } from './utils';
 
@@ -10,6 +10,10 @@ interface AutosizeData {
   maxRows?: number;
 }
 
+/**
+ * @function useText
+ * @description
+ */
 function useText(
   ctx: SetupContext,
   modelValue: Ref<any>,
@@ -43,10 +47,14 @@ function useText(
   }
 }
 
+
+/**
+ * @function useInput
+ * @description
+ */
 function useInput(
   ctx: SetupContext,
   textValueRef: Ref<string>,
-  onInputHook: ((e: Event) => void) | undefined
 ) {
   const inputRef = ref<HTMLInputElement>();
   const textareaRef = ref<HTMLTextAreaElement>();
@@ -100,13 +108,15 @@ function useInput(
       return;
     }
 
-    if (onInputHook) {
-      onInputHook(event);
+    if (typeof ctx.attrs.onInput === 'function') {
+      ctx.attrs.onInput(event);
     } else {
       inputValue.value = (event.target as InputElement).value;
     }
 
-    setNativeInputValue(inputValue.value);
+    nextTick(() => {
+      setNativeInputValue(inputValue.value);
+    })
   }
 
   function onCompositionstart() {
@@ -212,7 +222,10 @@ function usePassword(
   }
 }
 
-
+/**
+ * @function computeTextAreaStyle
+ * @description
+ */
 function computeTextAreaStyle(
   textareaRef: Ref<HTMLTextAreaElement | undefined>,
   modelValueRef: Ref<string>,
@@ -253,7 +266,10 @@ function computeTextAreaStyle(
   return computed(() => ({ ...textareaCalcStyle.value, resize: resizeRef.value } as CSSProperties));
 }
 
-
+/**
+ * @function positionIcon
+ * @description
+ */
 function positionIcon(
   ctx: SetupContext,
   type: Ref<string>
@@ -304,7 +320,7 @@ function positionIcon(
   });
 }
 
-export const InputImpl = defineComponent({
+export const Input = toAttrComponent<InputHTMLAttributes>()(defineComponent({
   name: 'el-input',
   // prevent the $attrs applys to <div>
   inheritAttrs: false,
@@ -354,12 +370,19 @@ export const InputImpl = defineComponent({
       default: false
     },
     tabindex: Number,
-
-    onInput: Method<(e: Event) => void>()
   },
 
 
-  setup(props, ctx) {
+  emits: [
+    'update:modelValue',
+    'input', 
+    'focus', 
+    'blur',
+    'clear',
+    'change',
+  ],
+
+  setup(props, ctx: SetupContext) {
     const typeRef = toRef(props, 'type');
     const diabledRef = toRef(props, 'disabled');
     const readonlyRef = toRef(props, 'readonly');
@@ -380,7 +403,6 @@ export const InputImpl = defineComponent({
     const inputState = useInput(
       ctx,
       textState.textValue,
-      props.onInput
     );
 
     const clearState = useClear(
@@ -611,9 +633,4 @@ export const InputImpl = defineComponent({
       </div>
     );
   }
-});
-
-export const Input = defineAttributesComponent<
-  InputHTMLAttributes & TextareaHTMLAttributes, 
-  typeof InputImpl
->(InputImpl);
+}));

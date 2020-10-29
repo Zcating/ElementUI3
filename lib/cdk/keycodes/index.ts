@@ -129,3 +129,7 @@ export function hasModifierKey(event: KeyboardEvent, ...modifiers: ModifiterKey[
 
   return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
 }
+
+export function isKey(event: KeyboardEvent, keyCode: number) {
+  return event.keyCode === keyCode;
+}

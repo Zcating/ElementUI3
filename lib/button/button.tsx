@@ -1,38 +1,18 @@
+import { Method, toAttrComponent } from '../cdk/utils';
 import { ElSize } from '../types';
-import { ButtonHTMLAttributes, computed, defineComponent, inject, renderSlot } from "vue";
+import { computed, defineComponent, HTMLAttributes, inject, renderSlot } from "vue";
 import { ElButtonNativeType, ElButtonType } from './types';
 
-interface ButtonProps {
-  type?: ElButtonType,
-  size?: ElSize,
-  icon?: string,
-  nativeType?: ElButtonNativeType,
-  loading?: boolean,
-  disabled?: boolean,
-  plain?: boolean,
-  autofocus?: boolean,
-  round?: boolean,
-  circle?: boolean,
-}
 
-export const ButtonGroup = defineComponent({
-  name: "ele-button-group",
-  setup(_, ctx) {
-    return () => (
-      <div class='el-button-group'>{renderSlot(ctx.slots, "default")}</div>
-    );
-  },
-});
-
-export const Button = defineComponent({
+export const Button = toAttrComponent<HTMLAttributes>()(defineComponent({
   name: "ele-button",
   props: {
     type: {
-      type: String as () => ElButtonType,
+      type: Method<ElButtonType>(),
       default: "default",
     },
     size: {
-      type: String as () => ElSize,
+      type: Method<ElSize>(),
       default: "medium",
     },
     icon: {
@@ -40,9 +20,10 @@ export const Button = defineComponent({
       default: "",
     },
     nativeType: {
-      type: String as () => ElButtonNativeType,
+      type: Method<ElButtonNativeType>(),
       default: "button",
     },
+
     loading: Boolean,
     disabled: Boolean,
     plain: Boolean,
@@ -50,7 +31,9 @@ export const Button = defineComponent({
     round: Boolean,
     circle: Boolean,
   },
+
   emits: ["click"],
+
   setup(props, ctx) {
     const formItem = inject("ele-form-item", { disabled: false, size: "" });
     const buttonDisabled = computed(() => formItem.disabled || props.disabled);
@@ -83,7 +66,4 @@ export const Button = defineComponent({
       </button>
     );
   },
-}) as any as {
-  new(): { $props: ButtonProps & ButtonHTMLAttributes }
-};
-
+}));

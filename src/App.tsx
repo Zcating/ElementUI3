@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { defineComponent,renderList } from "vue";
 import { RouterView } from "vue-router";
 import { globalInject, EleUIProvider } from "../lib";
 
