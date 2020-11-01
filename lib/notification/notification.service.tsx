@@ -92,6 +92,6 @@ export class NotificationServiceImpl extends NotificationService {
   }
 
   render(): DefineComponent {
-    return createContainter(this._config, this.instances, this.close.bind(this));
+    return createContainter(this._config, this.instances, this.close.bind(this)) as any;
   }
 }

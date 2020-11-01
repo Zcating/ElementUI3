@@ -5,7 +5,6 @@ import { globalInject, EleUIProvider } from "../lib";
 const App = defineComponent({
   name: "el-app",
   setup() {
-    globalInject();
     return () => <RouterView />;
   },
 });
@@ -13,6 +12,7 @@ const App = defineComponent({
 export default defineComponent({
   name: "element-app",
   setup() {
+    globalInject();
     return () => (
       <EleUIProvider>
         <App />

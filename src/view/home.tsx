@@ -31,6 +31,7 @@ import {
   Input
 } from "../../lib";
 
+
 export default defineComponent({
   name: "home",
   directives: {
@@ -59,6 +60,8 @@ export default defineComponent({
     const ElInput: any = Input;
     watch(input, (value) => console.log(value));
 
+    const test1 = ref(false);
+    const test2 = ref(false);
 
     return () => (
       <div>

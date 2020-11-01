@@ -17,7 +17,7 @@ import Clipboard from "./clipboard";
 import ViewPort from "./viewport";
 import * as lang from "../lang";
 // provide token
-export const platformToken = getClassToken(Platform);
+export const platformToken = Symbol('cdk-platform') as  InjectionKey<Platform>;
 export const breakpointToken = getClassToken(Breakpoint);
 export const bidirectionToken = getClassToken(Bidirection);
 export const clipboardToken = getClassToken(Clipboard);

@@ -63,6 +63,6 @@ export class MessageServiceImpl extends MessageService {
   }
 
   render() {
-    return MessageContainerFactory(this.instances, this.destroy.bind(this));
+    return MessageContainerFactory(this.instances, this.destroy.bind(this)) as any;
   }
 }
