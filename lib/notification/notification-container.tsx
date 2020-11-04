@@ -1,5 +1,5 @@
 import { Overlay } from '../cdk';
-import { computed, defineComponent, inject, InjectionKey, ref, Ref, watch } from 'vue';
+import { computed, defineComponent, InjectionKey, Ref } from 'vue';
 import { Notification } from './notification';
 import { NotificationConfig, NotificationData, NotificationPosition, positionClassTag } from './types';
 
@@ -17,7 +17,7 @@ export default (
   onDestroy: (id: string) => void
 ) => defineComponent({
   name: 'el-notification-container',
-  setup(_, ctx) {
+  setup() {
     const config = config$.value;
 
     const visible = computed(() => datas.value.length > 0);

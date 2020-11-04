@@ -47,7 +47,7 @@ export const Progress = defineComponent({
     format: FormatFunction
   },
 
-  setup(props, ctx) {
+  setup(props) {
     const levelColor = (percentage: number, colors: string[]) => {
       const span = 100 / colors.length;
       const colorArray = colors.map((color, index) => {

@@ -1,4 +1,4 @@
-import { defineComponent, DefineComponent, InjectionKey, provide, Ref, ref } from "vue";
+import { DefineComponent, InjectionKey, provide, Ref, ref } from "vue";
 import createContainter from './notification-container';
 import { NotificationConfig, NotificationConfigOptions, NotificationData } from './types';
 

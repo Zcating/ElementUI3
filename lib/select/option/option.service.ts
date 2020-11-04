@@ -1,4 +1,4 @@
-import { InjectionKey, provide, reactive, ref, toRef, watch } from 'vue';
+import { InjectionKey, provide, reactive, toRef, watch } from 'vue';
 
 export class OptionService {
   static key = Symbol('el-option-service') as InjectionKey<OptionService>;

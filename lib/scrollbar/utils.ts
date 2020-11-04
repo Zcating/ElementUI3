@@ -63,4 +63,4 @@ export default function scrollBarWidth() {
   _scrollBarWidth = widthNoScroll - widthWithScroll;
 
   return _scrollBarWidth;
-};
+}
