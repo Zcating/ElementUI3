@@ -1,25 +1,18 @@
+import { Method, toAttrComponent } from '../cdk/utils';
 import { ElSize } from '../types';
-import { computed, defineComponent, inject, renderSlot } from "vue";
+import { computed, defineComponent, HTMLAttributes, inject, renderSlot } from "vue";
 import { ElButtonNativeType, ElButtonType } from './types';
 
-export const ButtonGroup = defineComponent({
-  name: "ele-button-group",
-  setup(_, ctx) {
-    return () => (
-      <div class='el-button-group'>{renderSlot(ctx.slots, "default")}</div>
-    );
-  },
-});
 
-export const Button = defineComponent({
+export const Button = toAttrComponent<HTMLAttributes>()(defineComponent({
   name: "ele-button",
   props: {
     type: {
-      type: String as () => ElButtonType,
+      type: Method<ElButtonType>(),
       default: "default",
     },
     size: {
-      type: String as () => ElSize,
+      type: Method<ElSize>(),
       default: "medium",
     },
     icon: {
@@ -27,21 +20,20 @@ export const Button = defineComponent({
       default: "",
     },
     nativeType: {
-      type: String as () => ElButtonNativeType,
+      type: Method<ElButtonNativeType>(),
       default: "button",
     },
+
     loading: Boolean,
     disabled: Boolean,
     plain: Boolean,
     autofocus: Boolean,
     round: Boolean,
     circle: Boolean,
-    onClick: {
-      type: Function,
-      default: (e: Event) => {},
-    },
   },
+
   emits: ["click"],
+
   setup(props, ctx) {
     const formItem = inject("ele-form-item", { disabled: false, size: "" });
     const buttonDisabled = computed(() => formItem.disabled || props.disabled);
@@ -51,10 +43,6 @@ export const Button = defineComponent({
 
     return () => (
       <button
-        onClick={(e) => {
-          // ctx.emit("click", e);
-          props.onClick(e);
-        }}
         disabled={buttonDisabled.value || props.loading}
         autofocus={props.autofocus}
         type={props.nativeType}
@@ -70,6 +58,7 @@ export const Button = defineComponent({
             "is-circle": props.circle,
           },
         ]}
+        {...ctx.attrs}
       >
         {props.loading ? <i class='el-icon-loading' v-if='loading'></i> : null}
         {props.icon && !props.loading ? <i class={props.icon}></i> : null}
@@ -77,4 +66,4 @@ export const Button = defineComponent({
       </button>
     );
   },
-});
+}));

@@ -8,7 +8,7 @@
 - [x] badge
 - [x] button 
 - [x] calender
-- [ ] card
+- [x] card
 - [ ] cascader
 - [ ] checkbox
 - [ ] collapse
@@ -30,9 +30,7 @@
 - [ ] loading
 - [ ] menu
 - [x] message
-- [ ] message-box
 - [x] notification
-- [ ] options
 - [ ] page-header
 - [ ] pagination
 - [x] popconfirm

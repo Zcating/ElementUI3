@@ -1,4 +1,4 @@
-import { defineComponent, inject, KeepAlive, ref, watch, } from "vue";
+import { defineComponent, inject, KeepAlive, ref, watch } from "vue";
 import {
   Alert,
   Avatar,
@@ -28,7 +28,8 @@ import {
   Radio,
   RadioButton,
   Drawer,
-  Input
+  Input,
+  Card
 } from "../../lib";
 
 
@@ -57,7 +58,7 @@ export default defineComponent({
     const radioRef = ref('上海');
 
     const input = ref('');
-    const ElInput: any = Input;
+    
     watch(input, (value) => console.log(value));
 
     const test1 = ref(false);
@@ -296,9 +297,30 @@ export default defineComponent({
         </p>
 
         <p>
-          <Input v-model={input.value} placeholder="不能输入空格请输入内容" onInput={(e: Event) => input.value = (e.target! as any).value.replace(/\s*/g,'')}/>
-          <ElInput v-model={input.value} placeholder="请输入内容2" clearable/>
-          <ElInput v-model={input.value} placeholder="请输入内容2" type="textarea" autosize/>
+          <Input v-model={input.value} placeholder="不能输入空格" onInput={(e: Event) => {
+            input.value = (e.target! as any).value.replace(/\s*/g, '')
+          }} />
+          <Input v-model={input.value} placeholder="请输入内容2" clearable />
+          <Input v-model={input.value} placeholder="请输入内容2" type="textarea" autosize />
+        </p>
+
+        <p style="width: 256px">
+          <Card bodyStyle={{ padding: '0px', }}>
+            <img 
+              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" 
+              style={{
+                width: '100%',
+                display: 'block'
+              }} 
+            />
+            <div style="padding: 14px;">
+              <span>好吃的汉堡</span>
+              <div class="bottom clearfix">
+                <time class="time">{new Date()}</time>
+                <Button type="text" class="button">操作按钮</Button>
+              </div>
+            </div>
+          </Card>
         </p>
 
         <div style='height:200px;overflow-y:auto'>
