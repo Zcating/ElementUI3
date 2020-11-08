@@ -11,8 +11,6 @@ export class SelectSerivce {
     multiple: false
   });
 
-  
-
   constructor() {
     provide(SelectSerivce.key, this);
   }
