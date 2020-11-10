@@ -1,67 +1,82 @@
-// import { watchRef } from '@/cdk/hook';
-// import { defineComponent, inject, ref, renderSlot, toRef } from "vue";
-// import { OptionService } from './option.service';
+import { watchRef } from '../../cdk/hook';
+import { defineComponent, inject, ref, renderSlot, toRef } from "vue";
+import { SelectSerivce } from '../select.service';
+import { OptionService } from './option.service';
 
-// export const Option = defineComponent({
-//   props: {
-//     value: {
-//       required: true
-//     },
-//     label: [String, Number],
-//     created: {
-//       type: Boolean,
-//       default: false,
-//     },
-//     disabled: {
-//       type: Boolean,
-//       default: false
-//     }
-//   },
+export const Option = defineComponent({
+  name: 'el-option',
+  props: {
+    value: {
+      type: [String, Number],
+      required: true,
+    },
+    label: [String, Number],
+    created: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-//   setup(props, ctx) {
-//     const elDisabled = watchRef(toRef(props, 'disabled'));
-//     const hover = ref(false);
-//     const limitReached = ref(false);
+  setup(props) {
+    const elDisabled = watchRef(toRef(props, 'disabled'));
+    const hover = ref(false);
+    const limitReached = ref(false);
 
-//     const service = inject(OptionService.key);
-//     if (service) {
-//       service.watchDisabled((value) => elDisabled.value = value);
-//     }
+    const service = inject(OptionService.key);
+    if (service) {
+      service.watchDisabled((value) => elDisabled.value = value);
+    }
+
+    const selectSerivce = inject(SelectSerivce.key);
+    if (selectSerivce) {
+      selectSerivce.watchOptions(() => props.value, Symbol());
+    }
     
-//     return {
-//       elDisabled,
-//       hover,
-//       limitReached,
-//       hoverItem,
-//       selectOptionClick,
-//       itemSelected,
-//     };
-//   },
+    const selected = ref(false);
 
-//   render() {
-//     const {
-//       $slots,
-//       currentLabel,
-//       hoverItem,
-//       selectOptionClick,
-//       itemSelected,
-//       elDisabled,
-//       limitReached,
-//       hover
-//     } = this;
-//     return (
-//       <li
-//         onMouseenter={hoverItem}
-//         onClick={selectOptionClick}
-//         class={["el-select-dropdown__item", {
-//           'selected': itemSelected,
-//           'is-disabled': elDisabled || limitReached,
-//           'hover': hover
-//         }]}
-//       >
-//         {renderSlot($slots, 'default')}
-//         <span>{currentLabel}</span>
-//       </li>
-//     );
-//   }
-// });
+    const hoverItem = () => {}
+
+    const optionClick = () => {
+      selected.value = !selected.value;
+    }
+  
+
+    return {
+      elDisabled,
+      hover,
+      limitReached,
+      hoverItem,
+      optionClick,
+      selected,
+    };
+  },
+
+  render() {
+    const {
+      $slots,
+      hoverItem,
+      optionClick,
+      selected,
+      elDisabled,
+      limitReached,
+      hover
+    } = this;
+    return (
+      <li
+        onMouseenter={hoverItem}
+        onClick={optionClick}
+        class={["el-select-dropdown__item", {
+          'selected': selected,
+          'is-disabled': elDisabled || limitReached,
+          'hover': hover
+        }]}
+      >
+        {renderSlot($slots, 'default')}
+      </li>
+    );
+  }
+});

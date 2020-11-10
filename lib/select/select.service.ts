@@ -1,21 +1,32 @@
-import { InjectionKey, provide, toRefs, watch } from 'vue';
+import { InjectionKey, provide, ref, Ref, shallowRef, watch, WatchSource } from 'vue';
 
-interface SelectionState {
-  multiple: boolean;
-}
 
 export class SelectSerivce {
   static key: InjectionKey<SelectSerivce> = Symbol();
 
-  private state = toRefs<SelectionState>({
-    multiple: false
-  });
+  private readonly optionsRef: Ref<{ value: string | number, readonly current: Symbol }[]> = ref([]);
+
+  get options() {
+    const values = shallowRef<(string | number)[]>([]);
+    watch(this.optionsRef, (options) => {
+      values.value = options.map(opt => opt.value);
+    }, { immediate: true, deep: true });
+    return values;
+  }
 
   constructor() {
     provide(SelectSerivce.key, this);
   }
 
-  watchState<T extends keyof SelectionState>(key: T, fn: (value: SelectionState[T]) => void) {
-    watch(this.state[key], fn);
+  watchOptions(source: WatchSource<number | string>, current: Symbol) {
+    watch(source, (value) => {
+      const options = this.optionsRef.value;
+      const index = options.findIndex((option) => option.current === current);
+      if (index === -1) {
+        options.push({ current, value });
+      } else {
+        options[index].value = value;
+      }
+    }, { immediate: true });
   }
 }

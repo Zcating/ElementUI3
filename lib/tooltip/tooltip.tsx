@@ -81,6 +81,7 @@ export const Tooltip = defineComponent({
       tooltipId,
       visibleArrow,
       visible,
+      transition,
     } = this;
 
 
@@ -104,8 +105,8 @@ export const Tooltip = defineComponent({
     return (
       <>
         {node}
-        <Overlay visible={visible} hasBackdrop={false}>
-          <Transition name={this.transition}>
+        <Overlay v-model={[this.visible, 'visible']} hasBackdrop={false}>
+          <Transition name={transition}>
             <div
               v-show={visible}
               ref="popper"
