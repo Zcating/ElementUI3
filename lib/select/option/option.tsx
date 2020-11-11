@@ -1,5 +1,5 @@
 import { watchRef } from '../../cdk/hook';
-import { defineComponent, inject, ref, renderSlot, toRef } from "vue";
+import { defineComponent, inject, Ref, ref, renderSlot, toRef } from "vue";
 import { SelectSerivce } from '../select.service';
 import { OptionService } from './option.service';
 
@@ -10,7 +10,10 @@ export const Option = defineComponent({
       type: [String, Number],
       required: true,
     },
-    label: [String, Number],
+    label: {
+      type: [String, Number],
+      default: '',
+    },
     created: {
       type: Boolean,
       default: false,
@@ -31,17 +34,19 @@ export const Option = defineComponent({
       service.watchDisabled((value) => elDisabled.value = value);
     }
 
+    let selected: Ref<boolean>;
+    
     const selectSerivce = inject(SelectSerivce.key);
     if (selectSerivce) {
-      selectSerivce.watchOptions(() => props.value, Symbol());
+      selected = selectSerivce.watchOptions(toRef(props, 'label'), toRef(props, 'value'), Symbol());
+    } else {
+      selected = ref(false);
     }
-    
-    const selected = ref(false);
 
     const hoverItem = () => {}
 
     const optionClick = () => {
-      selected.value = !selected.value;
+      selected.value = true;
     }
   
 

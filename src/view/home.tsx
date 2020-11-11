@@ -61,7 +61,9 @@ export default defineComponent({
 
     const input = ref('');
 
-    watch(input, (value) => console.log(value));
+    const selectValue = ref('');
+
+    watch(selectValue, (value) => console.log(value));
 
     return () => (
       <div>
@@ -176,7 +178,7 @@ export default defineComponent({
             v-slots={{ reference: () => 'tooltips!!!!' }}
           />
 
-          <div v-tooltip="tooltip" style={{ width: "100px", border: '1px solid black'}}>test</div>
+          <div v-tooltip="tooltip" style={{ width: "100px", border: '1px solid black' }}>test</div>
           <Tooltip
             ref="tooltip"
             trigger="click"
@@ -330,12 +332,12 @@ export default defineComponent({
           </Card> */}
         </p>
         <p>
-          <Select>
-            <SelectOption value="1">test</SelectOption>
-            <SelectOption value="1">test</SelectOption>
-            <SelectOption value="1">test</SelectOption>
-            <SelectOption value="1">test</SelectOption>
-            <SelectOption value="1">test</SelectOption>
+          <Select v-model={selectValue}>
+            <SelectOption value="1">test1</SelectOption>
+            <SelectOption value="2">test2</SelectOption>
+            <SelectOption value="3">test3</SelectOption>
+            <SelectOption value="4">test4</SelectOption>
+            <SelectOption value="5">test5</SelectOption>
           </Select>
         </p>
 
