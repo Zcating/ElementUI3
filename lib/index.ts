@@ -23,13 +23,5 @@ export { Input } from './input';
 export { Card } from './card';
 export { Select, SelectOption, SelectOptionGroup } from './select';
 
-export {
-  default as globalInject,
-  platformToken,
-  breakpointToken,
-  bidirectionToken,
-  clipboardToken,
-  // viewportToken,
-} from "./cdk/global";
 export * from "./cdk/tools";
 export * from "./cdk";

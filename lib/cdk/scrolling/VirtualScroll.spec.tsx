@@ -1,13 +1,11 @@
 import { mount, VueWrapper } from "@vue/test-utils";
 import { defineComponent } from "vue";
-import globalInit from "../global";
 import VirtualScroll from "./virtualScroll";
 import VirtualContainer from "./VirtualContainer";
 
 const VirtualScrollTester = defineComponent({
   name: "virtual-scroll-tester",
   setup(_, ctx) {
-    globalInit();
     const arr: any[] = [];
     for (let i = 0; i < 1000000; i++) {
       arr.push({ name: "test" });

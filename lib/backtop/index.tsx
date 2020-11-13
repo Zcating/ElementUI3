@@ -8,7 +8,8 @@ import {
   Transition,
   watch,
 } from "vue";
-import { platformToken, getFuncToken } from "..";
+import { getFuncToken } from "..";
+import { platformToken } from '../cdk/global';
 import { runWhileScroll } from "../cdk/tools";
 
 /**
@@ -77,7 +78,7 @@ export default defineComponent({
     },
     onClick: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
   },
   setup(props, ctx) {
@@ -110,8 +111,8 @@ export default defineComponent({
             {hasDefaultSlot ? (
               renderSlot(ctx.slots, "default")
             ) : (
-              <i class='el-icon-caret-top'></i>
-            )}
+                <i class='el-icon-caret-top'></i>
+              )}
           </div>
         ) : null}
       </Transition>
